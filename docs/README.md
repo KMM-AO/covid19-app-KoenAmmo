@@ -2,7 +2,7 @@
 
 mijn intentie van deze app is op een simple manier alle COVID-19 besmetting in kaart te brengen
 
-#Product Definitie
+##Product Definitie
 
 Deze ap maakt gebruik van ​https://covid19api.com/​ om data op te halen voor de statastieken 
 Om die dan op een gebruiks vriendelijk manier te tonen
