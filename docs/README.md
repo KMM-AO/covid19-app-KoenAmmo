@@ -16,6 +16,6 @@ Om die dan op een gebruiks vriendelijk manier te tonen
 * aantal besmetting tonen over de wereldwijd tussen een bepaalde tijd
 
  **designs:**
-*
+* 1.0 geupload
 *
 *
