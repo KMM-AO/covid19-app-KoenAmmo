@@ -1,3 +1,32 @@
+ion-toolbar{
+  text-align: center;
+  --color: #505050;
+  --background: #03eed2;
+
+}
+.date{
+
+}
+.function{
+padding-top: 10px;
+  border: 5px black;
+
+}
+
+.container{
+  position: absolute;
+  padding-top: 30px;
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 20px;
+
+  text-align: center;
+
+  background: rgba(128, 128, 128, 0.53);
+
+
+}
+
 ion-menu-button {
   color: var(--ion-color-primary);
 }
@@ -7,10 +36,13 @@ ion-menu-button {
   position: absolute;
   left: 0;
   right: 0;
-  top: 50%;
+  top: 70%;
   transform: translateY(-50%);
 }
 
+input{
+  width: 40%;
+}
 #container strong {
   font-size: 20px;
   line-height: 26px;

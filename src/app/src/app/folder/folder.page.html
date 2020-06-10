@@ -1,21 +1,52 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>{{ folder }}</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Covid-19 Statistics</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <div class="">
+        <ion-button color="light" slot="base">
+            <ion-menu-button color="light"></ion-menu-button>
+        </ion-button>
+    </div>
+    <div class="">
+        <ion-button slot="base">
+            <ion-menu-button></ion-menu-button>
+        </ion-button>
+    </div>
 
-  <div id="container">
-    <strong class="capitalize">{{ folder }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">{{ folder }}</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <div class="container ">
+        <div class="function">
+            <label for="country">
+                Country :
+            </label>
+            <ion-title size="small" id="country">{{folder}}</ion-title>
+        </div>
+        <div class="function">
+            <label class="date" for="startTime">
+                start date:
+            </label>
+            <input id="startTime" type="text" placeholder="dd/mm/jjjj">
+        </div>
+        <div class="function">
+            <label class="date" for="endTime">
+                end date :
+            </label>
+            <input id="endTime" type="text" placeholder="dd/mm/jjjj">
+        </div>
+        <div class="funtion">
+            <ion-button>save</ion-button>
+        </div>
+    </div>
+
+    <div id="container">
+        <h1>graf</h1>
+    </div>
 </ion-content>
