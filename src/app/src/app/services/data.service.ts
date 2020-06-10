@@ -10,6 +10,7 @@ import { retry, catchError } from 'rxjs/operators';
 export class DataService {
 
   private API_URL = 'https://api.covid19api.com/';
+  // https://api.covid19api.com/total/dayone/country/COUNTRYNAME list for all data from day one for one country
 
   constructor(private httpClient: HttpClient) { }
 
@@ -17,9 +18,13 @@ export class DataService {
 
     return this.httpClient.get(this.API_URL).pipe(catchError(this.handleError));
   }
-  public getCountriesRequest() {
+  public getCountriesListRequest() {
 
     return this.httpClient.get(this.API_URL+'countries').pipe(catchError(this.handleError));
+  }
+  public getCountryRequest(country) {
+
+    return this.httpClient.get(this.API_URL+"total/dayone/country/"+country).pipe(catchError(this.handleError));
   }
 
 

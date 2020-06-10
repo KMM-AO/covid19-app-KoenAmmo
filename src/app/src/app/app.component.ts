@@ -15,15 +15,15 @@ export class AppComponent implements OnInit {
     public selectedIndex = 0;
     public appPages = [
         {
-            title: 'Inbox',
-            url: '/folder/Inbox',
+            title: 'Home',
+            url: '/folder/Home',
         },
     ];
+
 
     private createPages() {
       console.log("test pages create"+ this.data.length);
         for (let i = 0; this.data.length > i; i++) {
-            console.log(i);
             this.appPages.push({
                 title: this.data[i].Country,
                 url: "/folder/" + this.data[i].Country
@@ -54,11 +54,10 @@ export class AppComponent implements OnInit {
 
         // *UNUSED*
 
-      this.dataService.getCountriesRequest().subscribe((response: any[]) => {
+      this.dataService.getCountriesListRequest().subscribe((response: any[]) => {
         console.log(response);
         this.data = response;
         this.createPages();
-
       });
 
 
