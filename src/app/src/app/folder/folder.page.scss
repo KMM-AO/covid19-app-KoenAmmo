@@ -15,14 +15,12 @@ padding-top: 10px;
 
 .container{
   position: absolute;
-  padding-top: 30px;
+  top: 25%;
+  left: 10%;
   width: 80%;
-  margin-left: 10%;
-  margin-top: 20px;
 
   text-align: center;
-
-  background: rgba(128, 128, 128, 0.53);
+  border: 2px solid rgba(0, 0, 0, 0.81);
 
 
 }
@@ -36,13 +34,11 @@ ion-menu-button {
   position: relative;
   left: 0;
   right: 0;
-  top: 70%;
+  top: 80%;
   transform: translateY(-50%);
 }
 
-input{
-  width: 40%;
-}
+
 #container strong {
   font-size: 20px;
   line-height: 26px;

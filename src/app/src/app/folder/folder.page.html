@@ -33,16 +33,24 @@
             <label class="date" for="startTime">
                 start date:
             </label>
-            <input id="startTime" type="text" placeholder="dd/mm/jjjj">
+            <ion-item>
+                <ion-input id="startTime" type="text" [(ngModel)]="startTime"placeholder="jjjj-mm-dd"></ion-input>
+            </ion-item>
         </div>
         <div class="function">
             <label class="date" for="endTime">
                 end date :
             </label>
-            <input id="endTime" type="text" placeholder="dd/mm/jjjj">
+            <ion-item>
+                <ion-input id="endTime" type="text" [(ngModel)]="endTime" placeholder="jjjj-mm-dd"></ion-input>
+            </ion-item>
+
         </div>
         <div class="funtion">
-            <ion-button>save</ion-button>
+            <ion-button (click)="setTime()">set time</ion-button>
+        </div>
+        <div class="funtion">
+            <ion-button>save settings</ion-button>
         </div>
     </div>
 
