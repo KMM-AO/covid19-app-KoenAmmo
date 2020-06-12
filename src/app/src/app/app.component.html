@@ -2,11 +2,10 @@
     <ion-split-pane contentId="main-content">
         <ion-menu contentId="main-content" type="overlay">
             <ion-content>
+
+
                 <ion-list id="inbox-list">
                     <ion-list-header>Country's</ion-list-header>
-
-
-<!--                  change for loop for api-->
                     <ion-menu-toggle auto-hide="true" *ngFor="let p of appPages; let i = index">
                         <ion-item
                                 (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"

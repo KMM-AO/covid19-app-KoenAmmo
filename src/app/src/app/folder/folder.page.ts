@@ -10,6 +10,12 @@ import {DataService} from '../services/data.service';
 })
 export class FolderPage implements OnInit {
     public data = [];
+    // make get data out of local
+
+    public saveData = [];
+
+    public saveName: string;
+    public selectedSaveIndex: any;
 
     public folder: string;
 
@@ -17,7 +23,7 @@ export class FolderPage implements OnInit {
     public confirmed: string;
     public recovered: string;
     public active: string;
-    public error: string;
+    public msg: string;
 
     public startTime: string;
     public endTime: string;
@@ -34,18 +40,33 @@ export class FolderPage implements OnInit {
             this.recovered = latestData.Recovered;
             this.active = latestData.Active;
         } else {
-            this.error = "there is no data available"
+            this.msg = "there is no data available"
         }
 
+    }
+
+    private setSavedData() {
+        console.log(this.saveData[this.selectedSaveIndex]);
+        this.folder = this.saveData[this.selectedSaveIndex].Country;
+        this.startTime = this.saveData[this.selectedSaveIndex].StartTime;
+        this.endTime = this.saveData[this.selectedSaveIndex].EndTime;
+        this.dataService.getCountryRequest(this.folder).subscribe((response: any[]) => {
+            this.data = response;
+            this.setData(this.data);
+            this.setTime()
+        });
     }
 
     ngOnInit() {
         this.folder = this.activatedRoute.snapshot.paramMap.get('id');
 
+        if (JSON.parse(localStorage.getItem('data'))) {
+            this.saveData = JSON.parse(localStorage.getItem('data'));
+        }
+
         this.dataService.getCountryRequest(this.folder).subscribe((response: any[]) => {
-            console.log(response);
             this.data = response;
-            this.setData(this.data)
+            this.setData(this.data);
         });
 
     }
@@ -59,7 +80,7 @@ export class FolderPage implements OnInit {
         let endIndex = 0;
         let i = 0;
 
-        if (this.validateDates(this.startTime, this.endTime)) {
+        if (FolderPage.validateDates(this.startTime, this.endTime)) {
 
             while (startDateFound == false || endDateFound == false) {
 
@@ -78,10 +99,10 @@ export class FolderPage implements OnInit {
 
                 i++;
             }
-            this.error = "";
+            this.msg = "";
             this.updateData(startIndex, endIndex)
         } else {
-            this.error = "Invalid Date"
+            this.msg = "Invalid Date"
         }
     }
 
@@ -103,10 +124,30 @@ export class FolderPage implements OnInit {
 
     }
 
-    private validateDates(startDate, endDate) {
+    private static validateDates(startDate, endDate) {
         // jjjj-mm-dd
         let reg = RegExp("([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))");
+        if (startDate)
         return reg.test(startDate) && reg.test(endDate);
     }
 
+    saveSettings() {
+
+      if (FolderPage.validateDates(this.startTime,this.endTime)) {
+
+        let saveObject = {
+          Name: this.saveName,
+          Country: this.folder,
+          StartTime: this.startTime,
+          EndTime: this.endTime
+        };
+        this.saveData.push(saveObject);
+        localStorage.setItem('data', JSON.stringify(this.saveData));
+        this.msg='Setting saved'
+      }else{
+        this.msg='Did not save... Invalid Date'
+      }
+
+
+    }
 }

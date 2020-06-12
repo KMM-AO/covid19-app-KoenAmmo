@@ -10,11 +10,15 @@
             <ion-menu-button color="light"></ion-menu-button>
         </ion-button>
     </div>
-    <div class="">
-        <ion-button slot="base">
-            <ion-menu-button></ion-menu-button>
-        </ion-button>
-    </div>
+        <ion-item>
+            <ion-label>Saved Settings</ion-label>
+            <ion-select [(ngModel)]="selectedSaveIndex" (ionChange)="setSavedData()" >
+                <ion-select-option *ngFor="let item of saveData; let i = index"
+                        value="{{i}}">{{item.Name}}</ion-select-option>
+            </ion-select>
+
+        </ion-item>
+
 
     <ion-header collapse="condense">
         <ion-toolbar>
@@ -34,7 +38,7 @@
                 start date:
             </label>
             <ion-item>
-                <ion-input id="startTime" type="text" [(ngModel)]="startTime"placeholder="jjjj-mm-dd"></ion-input>
+                <ion-input id="startTime" type="text" [(ngModel)]="startTime" placeholder="jjjj-mm-dd"></ion-input>
             </ion-item>
         </div>
         <div class="function">
@@ -49,13 +53,21 @@
         <div class="funtion">
             <ion-button (click)="setTime()">set time</ion-button>
         </div>
+        <div class="function">
+            <label for="saveName">
+                save name:
+            </label>
+            <ion-item>
+                <ion-input id="saveName" type="text" [(ngModel)]="saveName"></ion-input>
+            </ion-item>
+        </div>
         <div class="funtion">
-            <ion-button>save settings</ion-button>
+            <ion-button (click)="saveSettings()">save settings</ion-button>
         </div>
     </div>
 
     <div id="container">
-        <h2>{{error}}</h2>
+        <h3>{{msg}}</h3>
         <h4>death:</h4>
         <p>{{deaths}}</p>
         <h4>confirmed:</h4>
