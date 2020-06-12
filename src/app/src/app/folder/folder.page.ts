@@ -31,6 +31,20 @@ export class FolderPage implements OnInit {
     constructor(private activatedRoute: ActivatedRoute, private dataService: DataService) {
     }
 
+    ngOnInit() {
+        this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+
+        if (JSON.parse(localStorage.getItem('data'))) {
+            this.saveData = JSON.parse(localStorage.getItem('data'));
+        }
+
+        this.dataService.getCountryRequest(this.folder).subscribe((response: any[]) => {
+            this.data = response;
+            this.setData(this.data);
+        });
+
+    }
+
 
     private setData(data) {
         let latestData = data[data.length - 1];
@@ -53,21 +67,18 @@ export class FolderPage implements OnInit {
         this.dataService.getCountryRequest(this.folder).subscribe((response: any[]) => {
             this.data = response;
             this.setData(this.data);
-            this.setTime()
+            if (this.endTime && this.startTime) {
+                this.setTime()
+            }
         });
+        this.msg = 'Setting loaded'
     }
 
-    ngOnInit() {
-        this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+    delSavedData() {
+        this.saveData.splice(this.selectedSaveIndex, 1);
+        localStorage.setItem('data', JSON.stringify(this.saveData));
 
-        if (JSON.parse(localStorage.getItem('data'))) {
-            this.saveData = JSON.parse(localStorage.getItem('data'));
-        }
-
-        this.dataService.getCountryRequest(this.folder).subscribe((response: any[]) => {
-            this.data = response;
-            this.setData(this.data);
-        });
+        this.msg = 'Deleted setting'
 
     }
 
@@ -99,8 +110,8 @@ export class FolderPage implements OnInit {
 
                 i++;
             }
-            this.msg = "";
-            this.updateData(startIndex, endIndex)
+            this.updateData(startIndex, endIndex);
+
         } else {
             this.msg = "Invalid Date"
         }
@@ -128,26 +139,33 @@ export class FolderPage implements OnInit {
         // jjjj-mm-dd
         let reg = RegExp("([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))");
         if (startDate)
-        return reg.test(startDate) && reg.test(endDate);
+            return reg.test(startDate) && reg.test(endDate);
     }
 
     saveSettings() {
-
-      if (FolderPage.validateDates(this.startTime,this.endTime)) {
-
-        let saveObject = {
-          Name: this.saveName,
-          Country: this.folder,
-          StartTime: this.startTime,
-          EndTime: this.endTime
-        };
-        this.saveData.push(saveObject);
-        localStorage.setItem('data', JSON.stringify(this.saveData));
-        this.msg='Setting saved'
-      }else{
-        this.msg='Did not save... Invalid Date'
-      }
+        if (!this.endTime && !this.startTime) {
+            this.createSaveObject();
+            this.msg = 'Setting saved'
+        } else if (FolderPage.validateDates(this.startTime, this.endTime)) {
+            this.createSaveObject();
+            this.msg = 'Setting saved'
+        } else {
+            this.msg = 'Did not save... Invalid Date'
+        }
 
 
     }
+
+    private createSaveObject() {
+        let savedObject = {
+            Name: this.saveName,
+            Country: this.folder,
+            StartTime: this.startTime,
+            EndTime: this.endTime
+        };
+      this.saveData.push(savedObject);
+      localStorage.setItem('data', JSON.stringify(this.saveData));
+          }
+
+
 }

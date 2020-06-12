@@ -10,14 +10,15 @@
             <ion-menu-button color="light"></ion-menu-button>
         </ion-button>
     </div>
-        <ion-item>
-            <ion-label>Saved Settings</ion-label>
-            <ion-select [(ngModel)]="selectedSaveIndex" (ionChange)="setSavedData()" >
-                <ion-select-option *ngFor="let item of saveData; let i = index"
-                        value="{{i}}">{{item.Name}}</ion-select-option>
-            </ion-select>
+    <ion-item>
+        <ion-label>Saved Settings</ion-label>
+        <ion-select [(ngModel)]="selectedSaveIndex" (ionChange)="setSavedData()">
+            <ion-select-option *ngFor="let item of saveData; let i = index"
+                               value="{{i}}">{{item.Name}}</ion-select-option>
+        </ion-select>
+        <ion-button (click)="delSavedData()">Delete</ion-button>
 
-        </ion-item>
+    </ion-item>
 
 
     <ion-header collapse="condense">
