@@ -15,7 +15,7 @@
     </div>
     <ion-item>
         <ion-label>Saved Settings</ion-label>
-        <ion-select [(ngModel)]="selectedSaveIndex" (ionChange)="setSavedData()">
+        <ion-select [(ngModel)]="selectedSaveIndex" (ionChange)="loadSavedData()">
             <ion-select-option *ngFor="let item of saveData; let i = index"
                                value="{{i}}">{{item.Name}}</ion-select-option>
         </ion-select>
@@ -70,15 +70,17 @@
         </div>
     </div>
 
-    <div id="container">
-        <h3>{{msg}}</h3>
-        <h4>death:</h4>
-        <p>{{deaths}}</p>
-        <h4>confirmed:</h4>
-        <p>{{confirmed}}</p>
-        <h4>recovered:</h4>
-        <p>{{recovered}}</p>
-        <h4>active:</h4>
-        <p>{{active}}</p>
-    </div>
+
+    <ion-card class="chart">
+
+        <ion-card-header>
+            COVID-19
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{msg}}</p>
+            <h6>Confirmed Cases:</h6>
+            <p>{{confirmed}}</p>
+            <canvas #doughnutCanvas></canvas>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from "@angular/core";
+import {Chart} from "chart.js";
 import {ActivatedRoute} from '@angular/router';
 import {DataService} from '../services/data.service';
 
@@ -9,8 +10,12 @@ import {DataService} from '../services/data.service';
     styleUrls: ['./folder.page.scss'],
 })
 export class FolderPage implements OnInit {
+    @ViewChild("doughnutCanvas", {static: true}) doughnutCanvas: ElementRef;
+
+    private doughnutChart: Chart;
     public data = [];
     // make get data out of local
+
 
     public saveData = [];
 
@@ -32,6 +37,8 @@ export class FolderPage implements OnInit {
     }
 
     ngOnInit() {
+
+
         this.folder = this.activatedRoute.snapshot.paramMap.get('id');
 
         if (JSON.parse(localStorage.getItem('data'))) {
@@ -41,8 +48,8 @@ export class FolderPage implements OnInit {
         this.dataService.getCountryRequest(this.folder).subscribe((response: any[]) => {
             this.data = response;
             this.setData(this.data);
-        });
 
+        });
     }
 
 
@@ -56,10 +63,11 @@ export class FolderPage implements OnInit {
         } else {
             this.msg = "there is no data available"
         }
+        this.createChart();
 
     }
 
-    private setSavedData() {
+    private loadSavedData() {
         console.log(this.saveData[this.selectedSaveIndex]);
         this.folder = this.saveData[this.selectedSaveIndex].Country;
         this.startTime = this.saveData[this.selectedSaveIndex].StartTime;
@@ -71,6 +79,7 @@ export class FolderPage implements OnInit {
                 this.setTime()
             }
         });
+        this.createChart();
         this.msg = 'Setting loaded'
     }
 
@@ -80,6 +89,31 @@ export class FolderPage implements OnInit {
 
         this.msg = 'Deleted setting'
 
+    }
+
+    saveSettings() {
+        if (!this.endTime && !this.startTime) {
+            this.createSaveObject();
+            this.msg = 'Setting saved'
+        } else if (FolderPage.validateDates(this.startTime, this.endTime)) {
+            this.createSaveObject();
+            this.msg = 'Setting saved'
+        } else {
+            this.msg = 'Did not save... Invalid Date'
+        }
+
+
+    }
+
+    private createSaveObject() {
+        let savedObject = {
+            Name: this.saveName,
+            Country: this.folder,
+            StartTime: this.startTime,
+            EndTime: this.endTime
+        };
+        this.saveData.push(savedObject);
+        localStorage.setItem('data', JSON.stringify(this.saveData));
     }
 
     setTime() {
@@ -132,6 +166,8 @@ export class FolderPage implements OnInit {
         this.active = (endActive - startActive).toString();
         this.recovered = (endRecovered - startRecovered).toString();
 
+        this.createChart();
+
 
     }
 
@@ -142,30 +178,48 @@ export class FolderPage implements OnInit {
             return reg.test(startDate) && reg.test(endDate);
     }
 
-    saveSettings() {
-        if (!this.endTime && !this.startTime) {
-            this.createSaveObject();
-            this.msg = 'Setting saved'
-        } else if (FolderPage.validateDates(this.startTime, this.endTime)) {
-            this.createSaveObject();
-            this.msg = 'Setting saved'
-        } else {
-            this.msg = 'Did not save... Invalid Date'
-        }
+    private createChart() {
+        // let chartData={
+        //     datasets: [{
+        //         data: [this.active, this.deaths, this.recovered]
+        //     }],
+        //     labels: [
+        //         'Active',
+        //         'Deaths',
+        //         'Recovered'
+        //     ],
+        //     backgroundColor:[
+        //         "rgba(54, 162, 235, 0.2)",
+        //         "rgba(255, 99, 132, 0.2)",
+        //         "rgba(255, 206, 86, 0.2)"
+        //     ],
+        // };
 
+        let chartData= {
+            labels: ["Active", "Deaths", "Recoverd"],
+            datasets: [
+                {
+                    label: "COVID-19 Statistics",
+                    data: [this.active, this.deaths, this.recovered],
+                    backgroundColor: [
+                        "rgba(255, 206, 86)",//yellow
+                        "rgba(255, 99, 132)",//red
+                        "rgba(54, 162, 235)",//blue
+                    ],
+                    // hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                }
+            ]
+        };
+
+
+        this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement,{
+            type:'doughnut',
+            data: chartData
+        });
 
     }
 
-    private createSaveObject() {
-        let savedObject = {
-            Name: this.saveName,
-            Country: this.folder,
-            StartTime: this.startTime,
-            EndTime: this.endTime
-        };
-      this.saveData.push(savedObject);
-      localStorage.setItem('data', JSON.stringify(this.saveData));
-          }
+
 
 
 }

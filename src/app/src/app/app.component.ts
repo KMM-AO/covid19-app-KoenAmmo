@@ -12,9 +12,10 @@ import {DataService} from './services/data.service';
 })
 export class AppComponent implements OnInit {
     public data = [];
+
     public searchValue: string;
     public selectedIndex = 0;
-    public staticAppPages=[];
+    public staticAppPages = [];
     public appPages = [
         {
             title: 'Home',
@@ -22,34 +23,6 @@ export class AppComponent implements OnInit {
         },
     ];
 
-    search() {
-        let searchedAppPages=[];
-        this.appPages=this.staticAppPages;
-
-        for (let i = 0; i < this.appPages.length; i++) {
-            if (this.appPages[i].title.startsWith(this.searchValue) ||
-                this.appPages[i].title.toLowerCase().startsWith(this.searchValue))
-            {
-                searchedAppPages.push(this.appPages[i])
-            }
-        }
-            this.appPages = searchedAppPages;
-    }
-
-
-    private createPages() {
-        console.log("test pages create" + this.data.length);
-        for (let i = 0; this.data.length > i; i++) {
-            this.appPages.push({
-                title: this.data[i].Country,
-                url: "/folder/" + this.data[i].Country
-            })
-        }
-    }
-
-    //not used
-
-    // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
     constructor(
         private platform: Platform,
         private splashScreen: SplashScreen,
@@ -73,7 +46,7 @@ export class AppComponent implements OnInit {
             this.data = response;
             this.createPages();
             this.sortPages();
-            this.staticAppPages=this.appPages;
+            this.staticAppPages = this.appPages;
         });
 
         const path = window.location.pathname.split('folder/')[1];
@@ -84,7 +57,17 @@ export class AppComponent implements OnInit {
 
     }
 
-    sortPages() {
+    private createPages() {
+        console.log("test pages create" + this.data.length);
+        for (let i = 0; this.data.length > i; i++) {
+            this.appPages.push({
+                title: this.data[i].Country,
+                url: "/folder/" + this.data[i].Country
+            })
+        }
+    }
+
+    private sortPages() {
         this.appPages.sort(function (a, b) {
             var x = a.title.toLowerCase();
             var y = b.title.toLowerCase();
@@ -96,6 +79,19 @@ export class AppComponent implements OnInit {
             }
             return 0;
         });
+    }
+
+    search() {
+        let searchedAppPages = [];
+        this.appPages = this.staticAppPages;
+
+        for (let i = 0; i < this.appPages.length; i++) {
+            if (this.appPages[i].title.startsWith(this.searchValue) ||
+                this.appPages[i].title.toLowerCase().startsWith(this.searchValue)) {
+                searchedAppPages.push(this.appPages[i])
+            }
+        }
+        this.appPages = searchedAppPages;
     }
 
 
