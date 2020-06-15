@@ -6,7 +6,11 @@
 
                 <ion-list id="inbox-list">
                     <ion-list-header>Country's</ion-list-header>
+                    <ion-item>
+                        <ion-input [(ngModel)]="searchValue" (ionChange)="search()" placeholder="Search"></ion-input>
+                    </ion-item>
                     <ion-menu-toggle auto-hide="true" *ngFor="let p of appPages; let i = index">
+
                         <ion-item
                                 (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"
                                 detail="false" [class.selected]="selectedIndex == i">
