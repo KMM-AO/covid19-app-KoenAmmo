@@ -64,7 +64,6 @@ export class FolderPage implements OnInit {
         } else {
             this.msg = "there is no data available"
         }
-        console.log(data);
         this.createChart();
 
     }
