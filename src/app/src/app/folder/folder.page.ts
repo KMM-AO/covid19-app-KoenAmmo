@@ -50,6 +50,7 @@ export class FolderPage implements OnInit {
             this.setData(this.data);
 
         });
+
     }
 
 
@@ -63,6 +64,7 @@ export class FolderPage implements OnInit {
         } else {
             this.msg = "there is no data available"
         }
+        console.log(data);
         this.createChart();
 
     }
@@ -156,8 +158,8 @@ export class FolderPage implements OnInit {
         let endDeaths = this.data[endIndex].Deaths;
         let startConfirmed = this.data[startIndex].Confirmed;
         let endConfirmed = this.data[endIndex].Confirmed;
-        let startActive = this.data[startIndex].Deaths;
-        let endActive = this.data[endIndex].Deaths;
+        let startActive = this.data[startIndex].Active;
+        let endActive = this.data[endIndex].Active;
         let startRecovered = this.data[startIndex].Recovered;
         let endRecovered = this.data[endIndex].Recovered;
 
@@ -179,23 +181,7 @@ export class FolderPage implements OnInit {
     }
 
     private createChart() {
-        // let chartData={
-        //     datasets: [{
-        //         data: [this.active, this.deaths, this.recovered]
-        //     }],
-        //     labels: [
-        //         'Active',
-        //         'Deaths',
-        //         'Recovered'
-        //     ],
-        //     backgroundColor:[
-        //         "rgba(54, 162, 235, 0.2)",
-        //         "rgba(255, 99, 132, 0.2)",
-        //         "rgba(255, 206, 86, 0.2)"
-        //     ],
-        // };
-
-        let chartData= {
+               let chartData= {
             labels: ["Active", "Deaths", "Recoverd"],
             datasets: [
                 {
@@ -204,13 +190,11 @@ export class FolderPage implements OnInit {
                     backgroundColor: [
                         "rgba(255, 206, 86)",//yellow
                         "rgba(255, 99, 132)",//red
-                        "rgba(54, 162, 235)",//blue
+                        "rgb(70,235,41)",//green
                     ],
-                    // hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
                 }
             ]
         };
-
 
         this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement,{
             type:'doughnut',

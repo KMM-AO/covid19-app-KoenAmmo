@@ -16,12 +16,7 @@ export class AppComponent implements OnInit {
     public searchValue: string;
     public selectedIndex = 0;
     public staticAppPages = [];
-    public appPages = [
-        {
-            title: 'Home',
-            url: '/folder/Home',
-        },
-    ];
+    public appPages = [];
 
     constructor(
         private platform: Platform,
