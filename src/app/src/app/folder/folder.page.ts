@@ -97,7 +97,7 @@ export class FolderPage implements OnInit {
         if (!this.endTime && !this.startTime) {
             this.createSaveObject();
             this.msg = 'Setting saved'
-        } else if (FolderPage.validateDates(this.startTime, this.endTime)) {
+        } else if (this.validateDates(this.startTime, this.endTime)) {
             this.createSaveObject();
             this.msg = 'Setting saved'
         } else {
@@ -123,11 +123,11 @@ export class FolderPage implements OnInit {
         //this.data[0].Date.split('T')[0]
         let startDateFound = false;
         let endDateFound = false;
-        let startIndex = 0;
-        let endIndex = 0;
+        let startIndex=0;
+        let endIndex;
         let i = 0;
 
-        if (FolderPage.validateDates(this.startTime, this.endTime)) {
+        if (this.validateDates(this.startTime, this.endTime)) {
 
             while (startDateFound == false || endDateFound == false) {
 
@@ -135,6 +135,7 @@ export class FolderPage implements OnInit {
                     if (this.startTime === this.data[i].Date.split('T')[0]) {
                         startDateFound = true;
                         startIndex = i;
+                        console.log(startIndex);
                     }
                 }
                 if (endDateFound == false) {
@@ -144,9 +145,24 @@ export class FolderPage implements OnInit {
                     }
                 }
 
+                if (i==this.data.length-1 && startDateFound==false) {
+                    startIndex = 0;
+                    startDateFound = true;
+                }
+
+                if (i==this.data.length-1 && endDateFound==false) {
+                    endIndex =this.data.length-1;
+                    endDateFound=true;
+
+                }
+                console.log(i);
                 i++;
             }
+
+
             this.updateData(startIndex, endIndex);
+
+
 
         } else {
             this.msg = "Invalid Date"
@@ -173,11 +189,12 @@ export class FolderPage implements OnInit {
 
     }
 
-    private static validateDates(startDate, endDate) {
+    private  validateDates(startDate, endDate) {
         // jjjj-mm-dd
         let reg = RegExp("([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))");
-        if (startDate)
+        if (startDate < endDate){
             return reg.test(startDate) && reg.test(endDate);
+        }
     }
 
     private createChart() {
